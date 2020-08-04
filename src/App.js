@@ -1,38 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Home from "./Home";
-import Login from "./Login";
 import Nav from "./Nav";
-import Welcome from "./welcome";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import Home from "./home";
+import About from "./about";
+import Shop from "./shop";
+import Single from "./single";
+import GlobalState from "./context/GlobalState";
 
-class App extends Component {
-  state = {
-    logged: true,
-  };
-  render() {
-    return (
-      <>
-        <Router>
-          {/* <Switch> */}
-          <Nav />
-          <Redirect from="/" to="/login" />
-          {this.state.logged && (
-            <Redirect from="/login" to="/home" component={Login} />
-          )}
-          <Route exact path="/" component={Welcome} />
-          <Route path="/home" component={Home} />
-          {!this.state.logged && <Route path="/login" component={Login} />}
-          {/* </Switch> */}
-        </Router>
-      </>
-    );
-  }
-}
+const App = () => {
+  return (
+    <GlobalState>
+      <Router>
+        <Nav />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/shop" exact component={Shop} />
+          <Route path="/about" component={About} />
+          <Route path="/shop/:itemId" component={Single} />
+        </Switch>
+      </Router>
+    </GlobalState>
+  );
+};
 
 export default App;
